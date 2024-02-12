@@ -1,0 +1,64 @@
+### AUTHENTICATION ###
+
+POST /auth/register register a new user
+REQUEST BODY
+{
+    email               string      email address
+    firstName           string      user first name
+    lastName            string      user last name
+    password            string      password must contain only alphabet
+    confirmPassword     string      confirm password must match a password
+    isAdmin             Boolean?
+}
+RESPONSE
+201
+    {
+    accessToken         string      user token
+    user                object      user object without password
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
+
+POST /auth/login    login
+REQUEST BODY
+{
+    email           string  email address
+    password        string  user password
+}
+RESPONSE
+200
+    {
+        accessToken     string      user token
+        user            object      user object without password
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
+
+GET /auth/me            get authenticated user data
+HEADER
+    AUTHORIZATION       Bearer [JWT]
+RESPONSE
+200 
+    {
+        id, firstName, lastName, email, isAdmin, createdAt, deletedAt
+    }
+401 
+    {
+    message: "unauthenticated"
+    }
+500 
+    {
+    message: "internal server error
+    }
