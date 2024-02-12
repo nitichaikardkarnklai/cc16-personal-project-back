@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  firstName String    @map("first_name")
+  lastName  String    @map("last_name")
+  password  String
+  isAdmin   Boolean   @map("is_admin")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp(0)
+
+  userSurveys UserSurvey[]
+
+  @@map("users")
+}
+
+model UserSurvey {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @map("user_id")
+  user       User     @relation(fields: [userId], references: [id])
+  surveyId   Int      @map("survey_id")
+  survey     Survey   @relation(fields: [surveyId], references: [id])
+  questionId Int      @map("question_id")
+  question   Question @relation(fields: [questionId], references: [id])
+  score      Int      @map("score")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+
+  @@map("user_survey")
+}
+
+model Survey {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  description String?
+  startDate   DateTime     @map("start_date") @db.Timestamp(0)
+  endDate     DateTime     @map("end_date") @db.Timestamp(0)
+  image       String?
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamp(0)
+  isLive      Boolean      @default(false) @map("is_live")
+  questions   Question[]
+  userSurveys UserSurvey[]
+
+  @@map("surveys")
+}
+
+model Question {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String?
+  surveyId    Int          @map("survey_id")
+  survey      Survey       @relation(fields: [surveyId], references: [id])
+  ratings     Rating[]
+  userSurveys UserSurvey[]
+
+  @@map("questions")
+}
+
+model Rating {
+  id         Int      @id @default(autoincrement())
+  name       String
+  score      Int?     @default(0)
+  questionId Int      @map("question_id")
+  question   Question @relation(fields: [questionId], references: [id])
+
+  @@map("ratings")
+}
