@@ -62,3 +62,218 @@ RESPONSE
     {
     message: "internal server error
     }
+---------------------------------------------------------------------------------------
+### USERS ###
+
+GET /users            get all user data
+HEADER
+    AUTHORIZATION       Bearer [JWT]
+RESPONSE
+200 
+    {
+        users
+    }
+401 
+    {
+    message: "unauthenticated"
+    }
+500 
+    {
+    message: "internal server error
+    }
+
+PATCH /users/:userId            edit user data
+HEADER
+    AUTHORIZATION       Bearer [JWT]
+REQUEST BODY
+{
+    email               string      email address
+    firstName           string      user first name
+    lastName            string      user last name
+    isAdmin             Boolean?
+}
+RESPONSE
+200 
+    {
+    user
+    }
+401 
+    {
+    message: "unauthenticated"
+    }
+500 
+    {
+    message: "internal server error
+    }
+
+DELETE /users/:userId            edit user data
+HEADER
+    AUTHORIZATION       Bearer [JWT]
+RESPONSE
+200 
+    {
+        user: {deletedAt}
+    }
+401 
+    {
+    message: "unauthenticated"
+    }
+500 
+    {
+    message: "internal server error
+    }
+
+---------------------------------------------------------------------------------------
+
+### SURVEY ###
+POST /surveys              create survey data
+HEADER
+    AUTHORIZATION   Bearer [JWT]
+REQUEST BODY
+{
+    title            String       
+    description     String?
+    startDate       DateTime    
+    endDate         DateTime     
+    image           String?
+    questions: 
+    [
+    {
+        title       String
+        description String
+        surveyId    Int
+        ratings: 
+        [{
+            name:   String
+            score:  Int
+        },{
+            name:   String
+            score:  Int
+        },{
+            name:   String
+            score:  Int
+        }]
+    },
+    {
+        title       String
+        description String
+        surveyId    Int
+        rating: 
+        [{
+            name:   String
+            score:  Int
+        },{
+            name:   String
+            score:  Int
+        }]
+    }
+    ]
+}
+EXAMPLE
+{
+    "title" : "s2",
+    "startDate" : "2024-04-02",
+    "endDate" : "2024-04-03",
+    "questions" : [
+        {
+            "title" : "q1",
+            "description" : "q1",
+            "ratings" : [
+                {
+                    "name" : "น้อย",
+                    "score" : 0
+                },
+                                {
+                    "name" : "ปานกลาง",
+                    "score" : 1
+                },
+                                {
+                    "name" : "มาก",
+                    "score" : 2
+                }
+            ]
+        },
+        {
+            "title" : "q2",
+            "description" : "q2",
+            "ratings" : [
+                {
+                    "name" : "น้อย",
+                    "score" : 0
+                },
+                                {
+                    "name" : "ปานกลาง",
+                    "score" : 1
+                },
+                                {
+                    "name" : "มาก",
+                    "score" : 2
+                }
+            ]
+        }
+    ]
+}
+RESPONSE
+201
+    {
+    data
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
+
+GET /surveys/not-start              get not-start survey data
+HEADER
+    AUTHORIZATION   Bearer [JWT]
+RESPONSE
+201
+    {
+    data
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
+
+GET /surveys/ongoing             get ongoing survey data
+HEADER
+    AUTHORIZATION   Bearer [JWT]
+RESPONSE
+201
+    {
+    data
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
+
+GET /surveys/finished              get finished survey data
+HEADER
+    AUTHORIZATION   Bearer [JWT]
+RESPONSE
+201
+    {
+    data
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }

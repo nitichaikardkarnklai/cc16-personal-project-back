@@ -38,8 +38,8 @@ model UserSurvey {
 
 model Survey {
   id          Int          @id @default(autoincrement())
-  name        String       @unique
-  description String?
+  title       String       @unique
+  description String?      @db.Text
   startDate   DateTime     @map("start_date") @db.Timestamp(0)
   endDate     DateTime     @map("end_date") @db.Timestamp(0)
   image       String?
@@ -54,7 +54,7 @@ model Survey {
 model Question {
   id          Int          @id @default(autoincrement())
   title       String
-  description String?
+  description String?      @db.Text
   surveyId    Int          @map("survey_id")
   survey      Survey       @relation(fields: [surveyId], references: [id])
   ratings     Rating[]
@@ -66,7 +66,7 @@ model Question {
 model Rating {
   id         Int      @id @default(autoincrement())
   name       String
-  score      Int?     @default(0)
+  score      Int      @default(0)
   questionId Int      @map("question_id")
   question   Question @relation(fields: [questionId], references: [id])
 

@@ -2,7 +2,7 @@ const hashService = require("../services/hash-service");
 const jwtService = require("../services/jwt-service");
 const catchError = require("../utils/catch-error");
 const userService = require("../services/user-service");
-const createError = require("../utils/create-error")
+const createError = require("../utils/create-error");
 
 exports.register = catchError(async (req, res, next) => {
     // console.log("body", req.body);
@@ -42,3 +42,7 @@ exports.login = catchError(async (req, res, next) => {
 
     res.status(200).json({ token, user: existsUser });
 })
+
+exports.getMe = ((req, res, next) => {
+    res.status(200).json({ user: req.user });
+});

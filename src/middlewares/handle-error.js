@@ -3,7 +3,7 @@ const { TokenExpiredError, JsonWebTokenError } = require("jsonwebtoken");
 
 module.exports = (err, req, res, next) => {
 
-    console.log(err);
+    // console.log(err);
     if (err instanceof ValidationError) {
         err.statusCode = 400;
     } else if (err instanceof TokenExpiredError) {
