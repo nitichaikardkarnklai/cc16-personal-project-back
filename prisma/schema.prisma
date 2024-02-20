@@ -26,8 +26,8 @@ model UserSurvey {
   id         Int      @id @default(autoincrement())
   userId     Int      @map("user_id")
   user       User     @relation(fields: [userId], references: [id])
-  surveyId   Int      @map("survey_id")
-  survey     Survey   @relation(fields: [surveyId], references: [id])
+  // surveyId   Int      @map("survey_id")
+  // survey     Survey   @relation(fields: [surveyId], references: [id])
   questionId Int      @map("question_id")
   question   Question @relation(fields: [questionId], references: [id])
   score      Int      @map("score")
@@ -37,16 +37,16 @@ model UserSurvey {
 }
 
 model Survey {
-  id          Int          @id @default(autoincrement())
-  title       String       @unique
-  description String?      @db.Text
-  startDate   DateTime     @map("start_date") @db.Timestamp(0)
-  endDate     DateTime     @map("end_date") @db.Timestamp(0)
+  id          Int        @id @default(autoincrement())
+  title       String     @unique
+  description String?    @db.Text
+  startDate   DateTime   @map("start_date") @db.Timestamp(0)
+  endDate     DateTime   @map("end_date") @db.Timestamp(0)
   image       String?
-  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamp(0)
-  isLive      Boolean      @default(false) @map("is_live")
+  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamp(0)
+  isLive      Boolean    @default(false) @map("is_live")
   questions   Question[]
-  userSurveys UserSurvey[]
+  // userSurveys UserSurvey[]
 
   @@map("surveys")
 }
@@ -56,7 +56,7 @@ model Question {
   title       String
   description String?      @db.Text
   surveyId    Int          @map("survey_id")
-  survey      Survey       @relation(fields: [surveyId], references: [id])
+  survey      Survey       @relation(fields: [surveyId], references: [id], onDelete: Cascade)
   ratings     Rating[]
   userSurveys UserSurvey[]
 
@@ -68,7 +68,7 @@ model Rating {
   name       String
   score      Int      @default(0)
   questionId Int      @map("question_id")
-  question   Question @relation(fields: [questionId], references: [id])
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@map("ratings")
 }

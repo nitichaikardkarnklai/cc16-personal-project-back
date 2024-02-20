@@ -277,3 +277,131 @@ RESPONSE
     {
     message             string      server error message
     }
+
+DELETE /surveys/:surveyId              delete survey data
+HEADER
+    AUTHORIZATION   Bearer [JWT]
+RESPONSE
+201
+    {
+    deletedData
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
+
+PATCH /surveys/:surveyId              edit survey data
+HEADER
+    AUTHORIZATION   Bearer [JWT]
+REQUEST BODY
+{
+    title            String       
+    description     String?
+    startDate       DateTime    
+    endDate         DateTime     
+    image           String?
+    questions: 
+    [
+    {
+        title       String
+        description String
+        ratings: 
+        [{  
+
+            name:   String
+            score:  Int
+        },{ 
+
+            name:   String
+            score:  Int
+        },{
+
+            name:   String
+            score:  Int
+        }]
+    },
+    {
+        title       String
+        description String
+        rating: 
+        [{
+
+            name:   String
+            score:  Int
+        },{
+
+            name:   String
+            score:  Int
+        }]
+    }
+    ]
+}
+RESPONSE
+201
+    {
+    editedData
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
+
+
+---------------------------------------------------------------------------------------
+
+### USER SURVEY ###
+
+GET /surveys/users/:userId              get survey data which user not do yet
+HEADER
+    AUTHORIZATION   Bearer [JWT]
+RESPONSE
+201
+    {
+    surveyData
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
+
+POST /user-surveys/users/:userId      create user do survey
+REQUEST BODY
+{
+    userSurveys: [
+        {
+            questionId  Int
+            score       Int
+        },
+        {
+            questionId  Int
+            score       Int
+        }
+    ]
+}
+RESPONSE
+201
+    {
+    accessToken         string      user token
+    user                object      user object without password
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }

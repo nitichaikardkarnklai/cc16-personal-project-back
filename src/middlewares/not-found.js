@@ -1,3 +1,3 @@
 module.exports = (req, res, next) => {
-    res.json({ message: "resource not found naja" })
+    res.status(400).json({ message: "resource not found naja" })
 }
