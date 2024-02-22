@@ -11,6 +11,7 @@ const createUserSurveySchema = Joi.object({
             score: Joi.number().integer().required().messages({
                 'string.empty': "rating score is required",
                 "any.required": "rating score is required",
+                "number.base": "you not answer all question"
             })
         })
     )
@@ -20,6 +21,7 @@ exports.validateUserSurvey = (req, res, next) => {
     const { value, error } = createUserSurveySchema.validate(req.body);
 
     if (error) {
+        // console.log(error)
         throw error
     }
 

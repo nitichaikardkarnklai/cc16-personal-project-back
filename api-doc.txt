@@ -405,3 +405,49 @@ RESPONSE
     {
     message             string      server error message
     }
+
+GET /user-surveys/average              get average of survey data
+HEADER
+    AUTHORIZATION   Bearer [JWT]
+RESPONSE
+201
+    {
+    avgData: [
+        {
+            surveyId
+            avg
+            questions: [
+                {
+                    id
+                    avg
+                },
+                {
+                    id
+                    avg
+                }
+            ]
+        },
+        {
+            surveyId
+            avg
+            questions: [
+                {
+                    id
+                    avg
+                },
+                {
+                    id
+                    avg
+                }
+            ]
+        }
+    ]
+    }
+400
+    {
+    message             string      client error message
+    }
+500
+    {
+    message             string      server error message
+    }
