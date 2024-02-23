@@ -97,7 +97,7 @@ exports.validateCreateSurvey = (req, res, next) => {
         createError("you don't have time machine", 400);
     }
     const endDateTemp = value.endDate;
-    endDateTemp.setHours(30, 59, 59, 999);
+    endDateTemp.setHours(30, 59, 59, 0);
     // endDateTemp.setHours(23, 59, 59, 999);
     value.endDate = endDateTemp;
     req.body = value;
@@ -121,7 +121,7 @@ exports.validateEditSurvey = (req, res, next) => {
         createError("you don't have time machine", 400);
     }
     const endDateTemp = value.endDate;
-    endDateTemp.setHours(30, 59, 59, 999);
+    endDateTemp.setHours(30, 59, 59, 0);
     value.endDate = endDateTemp;
     req.body = value;
     next();
