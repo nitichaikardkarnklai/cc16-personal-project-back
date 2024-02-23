@@ -4,7 +4,7 @@ const catchError = require("../utils/catch-error");
 
 const authAdmin = catchError(async (req, res, next) => {
     if (!req.user.isAdmin) {
-        createError("unauthenticated cause not admin", 401);
+        createError("unauthenticated cause not admin", 403);
     }
     next();
 });
