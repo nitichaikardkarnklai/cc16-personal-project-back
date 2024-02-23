@@ -82,6 +82,9 @@ const editSurveySchema = Joi.object({
 exports.validateCreateSurvey = (req, res, next) => {
     const { value, error } = createSurveySchema.validate(req.body);
     const currentTime = new Date();
+    console.log(currentTime, value.startDate);
+
+    currentTime.setHours(0, 0, 0, 0);
     if (error) {
         // console.log(error);
         throw error
@@ -90,8 +93,13 @@ exports.validateCreateSurvey = (req, res, next) => {
         createError("start date cannot more than end date", 400);
     }
     if (value.startDate < currentTime || value.endDate < currentTime) {
+        // console.log(currentTime, value.startDate)
         createError("you don't have time machine", 400);
     }
+    const endDateTemp = value.endDate;
+    endDateTemp.setHours(30, 59, 59, 999);
+    // endDateTemp.setHours(23, 59, 59, 999);
+    value.endDate = endDateTemp;
     req.body = value;
     next();
 };
@@ -100,6 +108,9 @@ exports.validateEditSurvey = (req, res, next) => {
     const { value, error } = editSurveySchema.validate(req.body);
     // console.log("request body", req.body);
     const currentTime = new Date();
+    console.log(currentTime, value.startDate);
+
+    currentTime.setHours(0, 0, 0, 0);
     if (error) {
         throw error
     }
@@ -109,6 +120,9 @@ exports.validateEditSurvey = (req, res, next) => {
     if (value.startDate < currentTime || value.endDate < currentTime) {
         createError("you don't have time machine", 400);
     }
+    const endDateTemp = value.endDate;
+    endDateTemp.setHours(30, 59, 59, 999);
+    value.endDate = endDateTemp;
     req.body = value;
     next();
 };
